@@ -1,5 +1,5 @@
 const products = JSON.parse(localStorage.getItem("products"));
-console.log(products[0]);
+// console.log(products[0]);
 const product = document.getElementById("products");
 // const category = document.getElementsByClassName("ctgry");
 // console.log(category);
@@ -35,14 +35,14 @@ function displayProducts(filteredProducts) {
 
   filteredProducts.forEach((product) => {
     let item = document.createElement("div");
-    item.innerHTML = `<div class="group relative">
+    item.innerHTML = `<div class="group relative cursor-pointer" id="item">
                          <img
                          src="${product.image}"
                          alt="product picture"
-                         class="w-full h-auto"
+                         class="w-[450px] h-[350px]"
                          />
                          <div
-                         class="hidden group-hover:block absolute bottom-[20%] left-0 w-full px-[5%]"
+                         class="hidden group-hover:block absolute bottom-[28%] left-0 w-full px-[5%]"
                          >
                              <div class="flex justify-between">
                                  <div
@@ -59,9 +59,9 @@ function displayProducts(filteredProducts) {
                              </div>
                          </div>
                          <div class="mt-[3px]">
-                             <p>${product.category}</p>
-                             <p>${product.name}</p>
-                             <p class="font-bold">${product.price}$</p>
+                             <p class="text-gray-400">${product.category}</p>
+                             <p><b>${product.title}</b> </p>
+                             <p class="font-bold"><b>${product.price}</b>$</p>
                          </div>
                      </div>`;
 
@@ -70,6 +70,11 @@ function displayProducts(filteredProducts) {
       let quantityP = this.previousElementSibling;
       let quantity = parseInt(quantityP.innerText);
       quantityP.innerText = quantity + 1;
+    });
+
+    const div = document.getElementById("item");
+    div.addEventListener("click", function () {
+      window.location.href("home.html");
     });
 
     item.querySelector(".minus").addEventListener("click", function () {
