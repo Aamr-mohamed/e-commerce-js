@@ -24,6 +24,12 @@
       referrerpolicy="no-referrer"
       type="text/css"
     />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css"
+    />
+
     <title>Registeration</title>
   </head>
   <body>
@@ -31,7 +37,7 @@
       class="background w-[100vw] h-[100vh] flex justify-center items-center bg-[url('../assets/bg.jpg')] bg-cover bg-center bg-[#fe6480]"
     >
       <div
-        class="w-[35%] h-[80%] bg-transparent border-solid border-2 border-[rgba(255,255,255,0.2)] backdrop-blur-[10px] flex flex-col items-center gap-5 text-[#fff]"
+        class="w-[35%] bg-transparent border-solid border-2 border-[rgba(255,255,255,0.2)] backdrop-blur-[10px] flex flex-col items-center gap-5 text-[#fff]"
       >
         <div>
           <h1
@@ -41,11 +47,13 @@
             Elite Ensemble
           </h1>
         </div>
-        <form class="flex flex-col justify-center w-[70%]">
+        <form class="flex flex-col justify-center w-[70%]" id="signUp-form">
           <h3 class="mb-5">Create Account</h3>
 
           <label for="username">Your name</label>
           <input
+            required
+            name="username"
             type="text"
             id="username"
             class="mb-5 bg-transparent border-[2px] border-solid border-[rgba(255,255,255,0.2)] rounded-[40px] text-[#fff] w-[100%] h-[100%] outline-none p-2 pl-5 font-[16px]"
@@ -53,6 +61,8 @@
 
           <label for="email">Email</label>
           <input
+            required
+            name="email"
             type="email"
             id="email"
             class="mb-5 bg-transparent border-[2px] border-solid border-[rgba(255,255,255,0.2)] rounded-[40px] text-[#fff] w-[100%] h-[100%] outline-none p-2 pl-5 font-[16px]"
@@ -60,26 +70,46 @@
 
           <label for="password">Password</label>
           <input
+            name="password"
+            required
             type="password"
             id="password"
-            class="mb-5 bg-transparent border-[2px] border-solid border-[rgba(255,255,255,0.2)] rounded-[40px] text-[#fff] w-[100%] h-[100%] outline-none p-2 font-[16px]"
+            class="mb-5 bg-transparent border-[2px] border-solid border-[rgba(255,255,255,0.2)] rounded-[40px] text-[#fff] w-[100%] h-[100%] outline-none p-2 pl-5 font-[16px]"
           />
 
           <label for="re-password">Re-enter Password</label>
           <input
             type="password"
+            required
             id="re-password"
-            class="mb-5 bg-transparent border-[2px] border-solid border-[rgba(255,255,255,0.2)] rounded-[40px] text-[#fff] w-[100%] h-[100%] outline-none p-2 font-[16px]"
+            class="mb-5 bg-transparent border-[2px] border-solid border-[rgba(255,255,255,0.2)] rounded-[40px] text-[#fff] w-[100%] h-[100%] outline-none p-2 pl-5 font-[16px]"
           />
           <div>
-            <input type="checkbox" />
+            <input type="checkbox" required />
+
             <label for="checkbox"
               >Agree to Conditions of Use and Privacy Notice.</label
             >
           </div>
-          <button type="submit">Sign Up</button>
+          <button
+            id="submit-btn"
+            type="submit"
+            class="bg-transparent hover:bg-[#e81210] text-white font-semibold hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded m-5"
+          >
+            Sign Up
+          </button>
+
+          <p class="mb-3">
+            Already have an account
+            <a href="login.html" class="text-blue-600">Login</a>
+          </p>
         </form>
       </div>
     </div>
   </body>
+  <script src="js/signUp.js"></script>
+  <script
+    type="text/javascript"
+    src="https://cdn.jsdelivr.net/npm/toastify-js"
+  ></script>
 </html>
