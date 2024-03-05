@@ -42,6 +42,7 @@ const form = document
         },
       }).showToast();
     } else {
+      user.cart = [];
       existingUsers.push(user);
       localStorage.setItem("users", JSON.stringify(existingUsers));
       const toastElement2 = document.createElement("div");

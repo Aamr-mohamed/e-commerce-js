@@ -27,15 +27,6 @@
     <title>Elite Ensemble</title>
   </head>
   <body>
-    <script>
-      async function fetchHtmlAsText(url) {
-        const navbar = document.createElement("nav");
-        const html = await (await fetch(url)).text();
-        navbar.innerHTML = html;
-        document.body.appendChild(navbar);
-      }
-      fetchHtmlAsText("./components/navbar.html");
-    </script>
     <script src="js/navbar.js"></script>
 
     <!-- carousel -->

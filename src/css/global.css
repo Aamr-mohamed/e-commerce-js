@@ -30,3 +30,7 @@ p {
   font-size: 14px;
   font-family: Fauna One;
 }
+
+html {
+  scroll-behavior: smooth;
+}

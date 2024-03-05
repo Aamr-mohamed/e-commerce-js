@@ -22,6 +22,7 @@ const form = document
 
     if (userExists) {
       if (userExists.password === password) {
+        user.cart = userExists.cart;
         localStorage.setItem("user", JSON.stringify(user));
         const toastElement2 = document.createElement("div");
         toastElement2.innerHTML = `<i class="fa-solid fa-circle-check text-green-600"></i> Logged In Successfully.`;
