@@ -1,3 +1,6 @@
+import { addToCart } from "./utils/shoppingCart.js";
+import { toast } from "./utils/toasts.js";
+
 const searchMin = document.getElementById("range-min");
 const searchMax = document.getElementById("range-max");
 const valueMin = document.getElementById("value-min");
@@ -82,19 +85,19 @@ function displayProducts(products, filter) {
                          <div
                          class="hidden group-hover:block absolute bottom-[28%] w-full px-[5%]"
                          >
-                             <div class="flex justify-between">
+                                <form class="cart-form flex justify-between">
                                 <div
                                  class="flex text-center items-center bg-neutral-100 border-r-[3px]"
                                  >
-                                     <button class="minus fa-solid fa-minus px-2"></button>
-                                     <p class="text-gray-600 quantity">1</p>
-                                     <button class="plus fa-solid fa-plus px-2"></button>
+                                     <button type="button" class="minus fa-solid fa-minus px-2"></button>
+                                     <p class="text-gray-600 quantity" id="quantity">1</p>
+                                     <button type="button" class="plus fa-solid fa-plus px-2"></button>
                                  </div>
 
-                                 <button class="bg-neutral-600 text-white rounded p-2 float-end">
+                                 <button type="submit" class="bg-neutral-600 text-white rounded p-2 float-end">
                                  Add to Cart
                                  </button>
-                             </div>
+                                </form>
                          </div>
                          <div class="mt-[3px]">
                              <p class="text-gray-400">${product.category}</p>
@@ -124,6 +127,26 @@ function displayProducts(products, filter) {
       let quantity = parseInt(quantityP.innerText);
       if (quantity > 1) {
         quantityP.innerText = quantity - 1;
+      }
+    });
+    item.querySelector(".cart-form").addEventListener("submit", function (e) {
+      e.preventDefault();
+      let user = JSON.parse(localStorage.getItem("user"));
+
+      if (!user) {
+        toast(false, "Please login or register first");
+      } else {
+        let shopCart = {};
+        let quantity = document.getElementById("quantity").innerText;
+
+        shopCart.title = product.title;
+        shopCart.quantity = parseInt(quantity);
+
+        addToCart(shopCart, user.cart);
+
+        localStorage.setItem("user", JSON.stringify(user));
+
+        toast(true, "Added to Cart Successfully");
       }
     });
   });

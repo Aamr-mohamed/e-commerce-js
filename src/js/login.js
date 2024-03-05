@@ -1,3 +1,5 @@
+import { toast } from "./utils/toasts.js";
+
 localStorage.removeItem("user");
 
 const form = document
@@ -14,7 +16,7 @@ const form = document
       user[key] = value;
     });
 
-    console.log(user);
+    // console.log(user);
     let email = user.email;
     let password = user.password;
 
@@ -24,62 +26,12 @@ const form = document
       if (userExists.password === password) {
         user.cart = userExists.cart;
         localStorage.setItem("user", JSON.stringify(user));
-        const toastElement2 = document.createElement("div");
-        toastElement2.innerHTML = `<i class="fa-solid fa-circle-check text-green-600"></i> Logged In Successfully.`;
 
-        Toastify({
-          node: toastElement2,
-          duration: 3000,
-          destination: "https://github.com/apvarun/toastify-js",
-          newWindow: true,
-          close: false,
-          gravity: "top",
-          position: "right",
-          stopOnFocus: true,
-          callback: () => {
-            window.location.href = "home.html";
-          },
-          style: {
-            background: "#fff",
-            color: "black",
-          },
-        }).showToast();
+        toast(true, "Logged In Successfully.", "home.html");
       } else {
-        const toastElement = document.createElement("div");
-        toastElement.innerHTML = `<i class="fa-regular fa-circle-xmark text-red-600"></i> Wrong Password.`;
-
-        Toastify({
-          node: toastElement,
-          duration: 3000,
-          destination: "https://github.com/apvarun/toastify-js",
-          newWindow: true,
-          close: false,
-          gravity: "top",
-          position: "right",
-          stopOnFocus: true,
-          style: {
-            background: "#fff",
-            color: "black",
-          },
-        }).showToast();
+        toast(false, "Wrong Password.");
       }
     } else {
-      const toastElement = document.createElement("div");
-      toastElement.innerHTML = `<i class="fa-regular fa-circle-xmark text-red-600"></i> User not found`;
-
-      Toastify({
-        node: toastElement,
-        duration: 3000,
-        destination: "https://github.com/apvarun/toastify-js",
-        newWindow: true,
-        close: false,
-        gravity: "top",
-        position: "right",
-        stopOnFocus: true,
-        style: {
-          background: "#fff",
-          color: "black",
-        },
-      }).showToast();
+      toast(false, "User not found");
     }
   });

@@ -1,3 +1,6 @@
+import { addToCart } from "./utils/shoppingCart.js";
+import { toast } from "./utils/toasts.js";
+
 document.addEventListener("DOMContentLoaded", function () {
   const urlParams = new URLSearchParams(window.location.search);
   const itemTitle = urlParams.get("title");
@@ -23,13 +26,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
       <div class="flex mt-10">
         <div class="flex flex-col">
-          <h2>${product.title}</h2>
+          <h2><b>${product.title}</b></h2>
           <h3 class="mb-2">Cateogry</h3>
-          <h3 class="mb-5">${product.category}</h3>
+          <h3 class="mb-5"><b>${product.category}</b> </h3>
           <p class="mb-5">
             ${product.description}
           </p>
-          <p class="mb-5">Price: ${product.price}$</p>
+          <p class="mb-5"><b>Price: ${product.price}$</b></p>
           <form id="product-form">
             <div class="flex flex-col">
               <label for="quantity">Quantity From 1-10</label>
@@ -59,28 +62,11 @@ document.addEventListener("DOMContentLoaded", function () {
     .getElementById("product-form")
     .addEventListener("submit", function (e) {
       e.preventDefault();
-      let user = JSON.parse(localStorage.getItem("user"));
-      if (!user) {
-        const toastElement = document.createElement("div");
-        toastElement.innerHTML = `<i class="fa-regular fa-circle-xmark text-red-600"></i> Please SignIn or Register first.`;
 
-        Toastify({
-          node: toastElement,
-          duration: 3000,
-          destination: "https://github.com/apvarun/toastify-js",
-          newWindow: true,
-          close: false,
-          gravity: "top",
-          position: "right",
-          stopOnFocus: true,
-          callback: () => {
-            window.location.href = "login.html";
-          },
-          style: {
-            background: "#fff",
-            color: "black",
-          },
-        }).showToast();
+      let user = JSON.parse(localStorage.getItem("user"));
+
+      if (!user) {
+        toast(false, "Please SignIn or Register first.", "login.html");
       } else {
         let shopCart = {};
         const formData = new FormData(this);
@@ -89,38 +75,13 @@ document.addEventListener("DOMContentLoaded", function () {
           shopCart[key] = value;
         });
         shopCart.title = product.title;
-        shopCart.quantity = parseFloat(shopCart.quantity);
+        shopCart.quantity = parseInt(shopCart.quantity);
+
         addToCart(shopCart, user.cart);
 
         localStorage.setItem("user", JSON.stringify(user));
 
-        const toastElement2 = document.createElement("div");
-        toastElement2.innerHTML = `<i class="fa-solid fa-circle-check text-green-600"></i> Added to Cart Successfully.`;
-
-        Toastify({
-          node: toastElement2,
-          duration: 3000,
-          destination: "https://github.com/apvarun/toastify-js",
-          newWindow: true,
-          close: false,
-          gravity: "top",
-          position: "right",
-          stopOnFocus: true,
-          style: {
-            background: "#fff",
-            color: "black",
-          },
-        }).showToast();
+        toast(true, "Added to Cart Successfully.");
       }
     });
 });
-
-function addToCart(items, cart) {
-  const itemSearch = cart.filter((item) => item.title == items.title);
-  console.log(itemSearch);
-  if (itemSearch.length > 0) {
-    itemSearch[0].quantity += items.quantity;
-  } else {
-    cart.push(items);
-  }
-}
