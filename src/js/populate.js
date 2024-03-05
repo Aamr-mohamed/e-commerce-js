@@ -181,6 +181,8 @@ async function getProducts() {
     console.log("error fetching products", error);
   }
 }
+
+// localStorage.setItem("products", JSON.stringify(newProducts));
 getProducts();
 
 async function getItem(id) {

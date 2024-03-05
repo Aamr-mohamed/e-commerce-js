@@ -6,7 +6,8 @@ navbar.classList.add(
   "justify-between",
   "items-center",
   "py-3",
-  "px-20"
+  "pr-20",
+  "pl-10"
 );
 navbar.innerHTML = `
       <a href="home.html">
@@ -49,4 +50,5 @@ navbar.innerHTML = `
           </li>
         </ul>
       </div>`;
+
 document.body.appendChild(navbar);

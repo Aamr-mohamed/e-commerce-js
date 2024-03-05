@@ -39,7 +39,7 @@ function displayProducts(filteredProducts) {
                          <img
                          src="${product.image}"
                          alt="product picture"
-                         class="w-[450px] h-[350px]"
+                         class=" h-[350px]"
                          />
                          <div
                          class="hidden group-hover:block absolute bottom-[28%] left-0 w-full px-[5%]"
@@ -72,10 +72,12 @@ function displayProducts(filteredProducts) {
       quantityP.innerText = quantity + 1;
     });
 
-    const div = document.getElementById("item");
-    div.addEventListener("click", function () {
-      window.location.href("home.html");
-    });
+    const div = document
+      .getElementById("item")
+      .addEventListener("click", function () {
+        console.log("clicked");
+        window.location.href = "item.html";
+      });
 
     item.querySelector(".minus").addEventListener("click", function () {
       let quantityP = this.nextElementSibling;

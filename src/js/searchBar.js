@@ -3,17 +3,16 @@ const resultsContainer = document.getElementById("result-container");
 const itemUnavailableTxt = document.getElementById("item-unavailable-txt");
 let itemList = JSON.parse(localStorage.getItem("products")) || [];
 let searchValue;
-let itemsReturnedOnsearch;
+let itemsReturnedOnSearch;
 
 const renderItems = (items) => {
   if (items.length > 0) {
     resultsContainer.innerHTML = "";
     itemUnavailableTxt.style.display = "none";
 
-    itemsReturnedOnsearch = [];
+    itemsReturnedOnSearch = [];
 
     items.forEach((item) => {
-      item.name;
       resultsContainer.innerHTML += `
       <div class="item-cards flex justify-start border-b-2 border-gray-200 cursor-pointer">
          <img src="${item.image}" alt="item image" class="item-image h-10" /> 
@@ -41,7 +40,7 @@ searchBar.addEventListener("input", (event) => {
   resultsContainer.style.display = "block";
   itemUnavailableTxt.style.display = "none";
   const filteredItems = itemList
-    .filter((item) => item.title.toLowerCase().includes(searchValue))
+    .filter((item) => item.title?.toLowerCase().includes(searchValue))
     .slice(0, 5);
   console.log(filteredItems);
   // console.log(searchValue);
@@ -51,7 +50,7 @@ searchBar.addEventListener("input", (event) => {
 searchBar.addEventListener("focus", (event) => {
   if (searchBar.value.trim() !== "") {
     resultsContainer.style.display = "block";
-    if (itemsReturnedOnsearch.length === 0) {
+    if (itemsReturnedOnSearch.length === 0) {
       itemUnavailableTxt.style.display = "block";
     }
   }

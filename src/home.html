@@ -27,9 +27,16 @@
     <title>Elite Ensemble</title>
   </head>
   <body>
-    <script src="js/populate.js"></script>
+    <script>
+      async function fetchHtmlAsText(url) {
+        const navbar = document.createElement("nav");
+        const html = await (await fetch(url)).text();
+        navbar.innerHTML = html;
+        document.body.appendChild(navbar);
+      }
+      fetchHtmlAsText("./components/navbar.html");
+    </script>
     <script src="js/navbar.js"></script>
-    <script src="js/searchBar.js"></script>
 
     <!-- carousel -->
     <div aria-label="Newest Photos" style="margin-top: 0px">
@@ -46,7 +53,9 @@
         >
           <p class="text-[#ef99a4]">--NEW ITEMS</p>
           <p class="text-5xl text-white">Summer Sale</p>
-          <p class="font-bold text-[#e66677] underline">Discover More</p>
+          <a href="products.html">
+            <p class="font-bold text-[#e66677] underline">Discover More</p>
+          </a>
         </div>
 
         <ul data-slides>
@@ -140,6 +149,8 @@
 
     <script src="js/footer.js"></script>
     <script src="js/shoppingList.js"></script>
+    <script src="js/populate.js"></script>
+    <script src="js/carousel.js"></script>
+    <script src="js/searchBar.js"></script>
   </body>
-  <script src="js/carousel.js"></script>
 </html>
