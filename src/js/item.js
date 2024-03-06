@@ -34,22 +34,30 @@ document.addEventListener("DOMContentLoaded", function () {
           </p>
           <p class="mb-5"><b>Price: ${product.price}$</b></p>
           <form id="product-form">
-            <div class="flex flex-col">
-              <label for="quantity">Quantity From 1-10</label>
-              <input
-                min="1"
-                max="10"
-                value="1"
-                name="quantity"
-                type="number"
-                class="w-[30%] bg-stone-50 border-2 border-gray-300 text-black outline-none"
-              />
-            </div>
+          <div class="flex flex-col">
+          <p class="mb-3">Quantity From 1 to 10</p>
+          <select
+            name="quantity"
+            id="quantity"
+            class="quantity w-[25%] rounded bg-stone-100 p-1" 
+          >
+            <option value="1" selected>1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+          </select>
+          </div>
             
             <div>
               <button
              type="submit"
-             class="bg-yellow-400 hover:bg-orange-400 float-right text-white font-bold py-2 px-4 rounded-full w-[40%] mt-5"
+             class="bg-zinc-700 hover:bg-zinc-800 float-right text-white font-bold py-2 px-4 rounded-full w-[40%] mt-5"
              >
                Add To Cart
              </button>
@@ -69,13 +77,9 @@ document.addEventListener("DOMContentLoaded", function () {
         toast(false, "Please SignIn or Register first.", "login.html");
       } else {
         let shopCart = {};
-        const formData = new FormData(this);
 
-        formData.forEach((value, key) => {
-          shopCart[key] = value;
-        });
         shopCart.title = product.title;
-        shopCart.quantity = parseInt(shopCart.quantity);
+        shopCart.quantity = parseInt(document.getElementById("quantity").value);
 
         addToCart(shopCart, user.cart);
 

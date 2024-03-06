@@ -37,14 +37,16 @@ navbar.innerHTML = `
      
       <div class="flex items-center">
         <ul class="flex space-x-10">
-          <li>
-            <div>
-             <a href="#"><i class="fa-solid fa-user"></i></a>
-            </div>
+          <li> 
+             <a href="#"><i class="fa-solid fa-user" title="Account"></i></a>
           </li>
           <li>
-            <a href="cart.html"><i class="fa-solid fa-bag-shopping"></i></a>
+            <a href="products.html"><i class="fa-solid fa-bag-shopping" title="products"></i></a>
           </li>
+          <li>
+          <a href="cart.html"><i class="fa-solid fa-cart-shopping" title="shoppingCart"></i></a>
+          </li>
+          
           <li>
             <a href="#"><i class="fa-solid fa-bars"></i></a>
           </li>
