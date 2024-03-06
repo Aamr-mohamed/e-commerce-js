@@ -28,7 +28,7 @@ navbar.innerHTML = `
           aria-label="Search"
         />
         <button
-          class="fa-solid fa-magnifying-glass text-gray-500 absolute top-3 right-0 px-3"
+          class="search fa-solid fa-magnifying-glass text-gray-500 absolute top-3 right-0 px-3"
         ></button>
         <div id="result-container" class="absolute top-10 z-20 bg-white w-[500px] mt-2 rounded px-4"></div>
         <p class="absolute top-10 z-20" id="item-unavailable-txt"></p>

@@ -205,18 +205,17 @@ function renderCart() {
 
 function updateTotalPrice() {
   let totalPrice = 0;
-  const priceElements = document.querySelectorAll(".dynamic-price"); // All dynamic price elements
+  const priceElements = document.querySelectorAll(".dynamic-price");
 
   priceElements.forEach((priceElement) => {
-    totalPrice += parseFloat(priceElement.textContent); // Sum up all prices
+    totalPrice += parseFloat(priceElement.textContent);
   });
 
-  // Assuming you have an element with the ID 'total-price' where you want to display the total price
   const totalPriceElement = document.getElementById("total-price");
   if (totalPriceElement) {
     totalPriceElement.innerHTML = `<b>Total price: ${totalPrice.toFixed(
       2
-    )}$</b>`; // Update the text content with the total price
+    )}$</b>`;
   }
 }
 renderCart();

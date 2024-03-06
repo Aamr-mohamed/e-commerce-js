@@ -58,6 +58,16 @@ searchBar.addEventListener("input", (event) => {
   renderItems(filteredItems);
 });
 
+document.addEventListener("click", function (event) {
+  const isClickInsideSearchBar = searchBar.contains(event.target);
+  const isClickInsideResultsContainer = resultsContainer.contains(event.target);
+
+  if (!isClickInsideSearchBar && !isClickInsideResultsContainer) {
+    resultsContainer.style.display = "none";
+    itemUnavailableTxt.style.display = "none";
+  }
+});
+
 searchBar.addEventListener("focus", (event) => {
   if (searchBar.value.trim() !== "") {
     resultsContainer.style.display = "block";
@@ -67,9 +77,14 @@ searchBar.addEventListener("focus", (event) => {
   }
 });
 
-// searchBar.addEventListener("focusout", (event) => {
-//   setTimeout(() => {
-//     resultsContainer.style.display = "none";
-//     itemUnavailableTxt.style.display = "none";
-//   }, 100);
-// });
+const searchButton = document.querySelector(".search");
+
+searchButton.addEventListener("click", function () {
+  const searchQuery = searchBar.value.trim().toLowerCase();
+
+  if (searchQuery) {
+    const searchURL = `products.html?search=${encodeURIComponent(searchQuery)}`;
+
+    window.location.href = searchURL;
+  }
+});

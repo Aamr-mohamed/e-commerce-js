@@ -6,10 +6,19 @@ const searchMax = document.getElementById("range-max");
 const valueMin = document.getElementById("value-min");
 const valueMax = document.getElementById("value-max");
 
+const urlParams = new URLSearchParams(window.location.search);
+const searchQuery = urlParams.get("search");
+
 const products = JSON.parse(localStorage.getItem("products"));
 // console.log(products);
 const defaultFilter = {
-  categories: ["men's clothing", "women's clothing"],
+  categories: [
+    "men's clothing",
+    "women's clothing",
+    "all",
+    "jewelery",
+    "electronics",
+  ],
   priceRange: {
     min: 0,
     max: 1000,
@@ -32,14 +41,28 @@ const form = document
   .getElementById("filter-form")
   .addEventListener("submit", function (e) {
     e.preventDefault();
-    let filter = { categories: [], priceRange: { min: 0, max: 0 } };
+    let filter = {
+      categories: [],
+      priceRange: { min: 0, max: 0 },
+      ascending: false,
+      descending: false,
+    };
 
     const formData = new FormData(this);
     formData.forEach((value, key) => {
-      if (key !== "range-min" && key !== "range-max" && value === "on") {
-        filter.categories.push(key);
+      if (key !== "range-min" && key !== "range-max") {
+        if (value === "on") {
+          if (key === "ascending") {
+            filter.ascending = true;
+          } else if (key === "descending") {
+            filter.descending = true;
+          } else {
+            filter.categories.push(key);
+          }
+        }
       }
     });
+
     filter.priceRange.max = searchMax.value;
     filter.priceRange.min = searchMin.value;
 
@@ -57,14 +80,30 @@ const form = document
 // };
 
 function getFilteredProducts(products, filter) {
-  const { categories, priceRange } = filter;
-  return products.filter((product) => {
-    const inCategory =
-      categories.includes("all") || categories.includes(product.category);
+  const { categories, priceRange, ascending, descending } = filter;
+
+  let filteredProducts = products.filter((product) => {
+    const inCategory = categories.includes("all")
+      ? true
+      : categories.includes(product.category);
+
     const inPriceRange =
       product.price >= priceRange.min && product.price <= priceRange.max;
-    return inCategory && inPriceRange;
+
+    const matchesSearchQuery = searchQuery
+      ? product.title.toLowerCase().includes(searchQuery.toLowerCase())
+      : true;
+    return inCategory && inPriceRange && matchesSearchQuery;
   });
+
+  console.log(filteredProducts);
+  if (ascending) {
+    filteredProducts.sort((a, b) => a.price - b.price);
+  } else if (descending) {
+    filteredProducts.sort((a, b) => b.price - a.price);
+  }
+
+  return filteredProducts;
 }
 
 function displayProducts(products, filter) {
