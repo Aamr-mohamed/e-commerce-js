@@ -108,7 +108,7 @@ function displayProducts(filteredProducts) {
         shopCart.quantity = parseInt(quantity);
 
         addToCart(shopCart, user.cart);
-        console.log(user.cart);
+        // console.log(user.cart);
 
         localStorage.setItem("user", JSON.stringify(user));
 

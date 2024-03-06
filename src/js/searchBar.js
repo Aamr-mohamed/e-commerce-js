@@ -1,5 +1,5 @@
 const searchBar = document.getElementById("search-bar");
-const resultsContainer = document.getElementById("result-container");
+let resultsContainer = document.getElementById("result-container");
 const itemUnavailableTxt = document.getElementById("item-unavailable-txt");
 let itemList = JSON.parse(localStorage.getItem("products")) || [];
 let searchValue;
@@ -13,12 +13,23 @@ const renderItems = (items) => {
     itemsReturnedOnSearch = [];
 
     items.forEach((item) => {
-      resultsContainer.innerHTML += `
-      <div class="item-cards flex justify-start border-b-2 border-gray-200 cursor-pointer">
+      let div = document.createElement("div");
+      div.classList.add("product-item");
+      div.setAttribute("data-title", encodeURIComponent(item.title));
+      div.setAttribute(
+        "class",
+        "flex justify-start border-b-2 border-gray-200 cursor-pointer"
+      );
+      div.innerHTML += `
+     
          <img src="${item.image}" alt="item image" class="item-image h-10" /> 
           <h6 class="title ml-[20px]">${item.title}</h6>
-      </div> 
     `;
+      div.addEventListener("click", function () {
+        const title = decodeURIComponent(div.getAttribute("data-title"));
+        window.location.href = `item.html?title=${title}`;
+      });
+      resultsContainer.appendChild(div);
     });
   } else {
     resultsContainer.innerHTML = "";
@@ -56,9 +67,9 @@ searchBar.addEventListener("focus", (event) => {
   }
 });
 
-searchBar.addEventListener("focusout", (event) => {
-  setTimeout(() => {
-    resultsContainer.style.display = "none";
-    itemUnavailableTxt.style.display = "none";
-  }, 100);
-});
+// searchBar.addEventListener("focusout", (event) => {
+//   setTimeout(() => {
+//     resultsContainer.style.display = "none";
+//     itemUnavailableTxt.style.display = "none";
+//   }, 100);
+// });

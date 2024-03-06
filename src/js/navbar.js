@@ -43,7 +43,7 @@ navbar.innerHTML = `
             </div>
           </li>
           <li>
-            <a href="#"><i class="fa-solid fa-bag-shopping"></i></a>
+            <a href="cart.html"><i class="fa-solid fa-bag-shopping"></i></a>
           </li>
           <li>
             <a href="#"><i class="fa-solid fa-bars"></i></a>
