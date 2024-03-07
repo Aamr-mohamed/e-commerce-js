@@ -5,7 +5,8 @@ let user = JSON.parse(localStorage.getItem("user"));
 let products = JSON.parse(localStorage.getItem("products"));
 
 let shoppingCart = user.cart;
-console.log(user);
+// console.log(shoppingCart);
+// console.log(typeof shoppingCart);
 
 function getProduct(title, productList) {
   return productList.find(
@@ -15,14 +16,11 @@ function getProduct(title, productList) {
 }
 
 function renderCart() {
-  shoppingCart.forEach((element) => {
-    const product = getProduct(element.title, products);
-    const div = document.querySelector(".cart");
-    console.log(element.quantity);
-    // console.log(div);
-    // console.log(product);
-
+  if (shoppingCart.length === 0) {
+    console.log("reach");
     const item = document.createElement("div");
+    const div = document.querySelector(".cart");
+
     item.classList.add(
       "product-item",
       "w-[80%]",
@@ -33,9 +31,36 @@ function renderCart() {
       "border-b-2",
       "border-gray-300"
     );
-    item.setAttribute("data-title", encodeURIComponent(product.title));
+    item.innerHTML = `
+      <div class="w-[15%] h-[30%]">
+        <img src="https://m.media-amazon.com/images/G/01/cart/empty/kettle-desaturated._CB445243794_.svg" alt="" />
+      </div>
+      
+      `;
+    div.appendChild(item);
+  } else {
+    // console.log("3adeet");
+    shoppingCart.forEach((element) => {
+      const product = getProduct(element.title, products);
+      const div = document.querySelector(".cart");
+      // console.log(element.quantity);
+      // console.log(div);
+      // console.log(product);
 
-    item.innerHTML = `<div class="w-[15%] h-[30%]">
+      const item = document.createElement("div");
+      item.classList.add(
+        "product-item",
+        "w-[80%]",
+        "h-[20%]",
+        "flex",
+        "flex-row",
+        "mb-5",
+        "border-b-2",
+        "border-gray-300"
+      );
+      item.setAttribute("data-title", encodeURIComponent(product.title));
+
+      item.innerHTML = `<div class="w-[15%] h-[30%]">
           <img
             class="w-full h-full"
             src="${product.image}"
@@ -119,88 +144,90 @@ function renderCart() {
       </div>
 
 `;
-    item.querySelector(".remove-btn").addEventListener("click", function () {
-      item.remove();
+      item.querySelector(".remove-btn").addEventListener("click", function () {
+        item.remove();
 
-      const updatedCart = shoppingCart.filter(
-        (cartItem) =>
-          cartItem.title.trim().toLowerCase() !==
-          product.title.trim().toLowerCase()
-      );
-      user.cart = updatedCart;
-      localStorage.setItem("user", JSON.stringify(user));
+        const updatedCart = shoppingCart.filter(
+          (cartItem) =>
+            cartItem.title.trim().toLowerCase() !==
+            product.title.trim().toLowerCase()
+        );
+        user.cart = updatedCart;
+        localStorage.setItem("user", JSON.stringify(user));
 
-      updateTotalPrice();
+        updateTotalPrice();
+      });
+
+      item.querySelector(".quantity").addEventListener("change", function (e) {
+        let quantity = parseInt(e.target.value);
+        // console.log(quantity);
+
+        let initialPrice = parseFloat(
+          e.target.getAttribute("data-initial-price")
+        );
+        let totalPrice = (initialPrice * quantity).toFixed(2);
+        item.querySelector(".dynamic-price").textContent = totalPrice;
+        updateTotalPrice();
+      });
+
+      item.querySelector(".cart-form").addEventListener("submit", function (e) {
+        e.preventDefault();
+
+        let shopCart = {};
+        let addQuantity = parseInt(
+          document.getElementById("add-quantity").value
+        );
+
+        shopCart.title = product.title;
+        shopCart.quantity = addQuantity;
+
+        addToCart(shopCart, user.cart);
+
+        localStorage.setItem("user", JSON.stringify(user));
+
+        toast(true, "Added To Cart Successfully", "cart.html");
+      });
+
+      const addBtn = item.querySelector(".addBtn");
+      const rmBtn = item.querySelector(".rmBtn");
+
+      addBtn.addEventListener("click", function () {
+        addToCart(
+          {
+            title: product.title,
+            quantity: parseInt(
+              parseInt(document.getElementById("add-quantity").value)
+            ),
+          },
+          user.cart
+        );
+        localStorage.setItem("user", JSON.stringify(user));
+
+        toast(true, "Added To Cart Successfully", "cart.html");
+
+        // renderCart();
+      });
+
+      rmBtn.addEventListener("click", function () {
+        removeItem(
+          {
+            title: product.title,
+            quantity: parseInt(
+              parseInt(document.getElementById("rm-quantity").value)
+            ),
+          },
+          user.cart
+        );
+        localStorage.setItem("user", JSON.stringify(user));
+
+        toast(true, "Removed From Cart Successfully", "cart.html");
+
+        // renderCart();
+      });
+
+      div.appendChild(item);
     });
-
-    item.querySelector(".quantity").addEventListener("change", function (e) {
-      let quantity = parseInt(e.target.value);
-      // console.log(quantity);
-
-      let initialPrice = parseFloat(
-        e.target.getAttribute("data-initial-price")
-      );
-      let totalPrice = (initialPrice * quantity).toFixed(2);
-      item.querySelector(".dynamic-price").textContent = totalPrice;
-      updateTotalPrice();
-    });
-
-    item.querySelector(".cart-form").addEventListener("submit", function (e) {
-      e.preventDefault();
-
-      let shopCart = {};
-      let addQuantity = parseInt(document.getElementById("add-quantity").value);
-      let rmQuantity = parseInt(document.getElementById("rm-quantity").value);
-
-      shopCart.title = product.title;
-      shopCart.quantity = addQuantity;
-
-      addToCart(shopCart, user.cart);
-
-      localStorage.setItem("user", JSON.stringify(user));
-
-      toast(true, "Added To Cart Successfully", "cart.html");
-    });
-
-    const addBtn = item.querySelector(".addBtn");
-    const rmBtn = item.querySelector(".rmBtn");
-
-    addBtn.addEventListener("click", function () {
-      addToCart(
-        {
-          title: product.title,
-          quantity: parseInt(
-            parseInt(document.getElementById("add-quantity").value)
-          ),
-        },
-        user.cart
-      );
-      localStorage.setItem("user", JSON.stringify(user));
-
-      toast(true, "Added To Cart Successfully", "cart.html");
-
-      // renderCart();
-    });
-
-    rmBtn.addEventListener("click", function () {
-      removeItem(
-        {
-          title: product.title,
-          quantity: parseInt(
-            parseInt(document.getElementById("rm-quantity").value)
-          ),
-        },
-        user.cart
-      );
-      localStorage.setItem("user", JSON.stringify(user));
-
-      toast(true, "Removed From Cart Successfully", "cart.html");
-
-      // renderCart();
-    });
-
-    div.appendChild(item);
-  });
+  }
 }
 
 function updateTotalPrice() {

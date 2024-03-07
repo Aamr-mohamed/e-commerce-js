@@ -1,4 +1,6 @@
 const navbar = document.createElement("nav");
+let user = JSON.parse(localStorage.getItem("user"));
+
 navbar.classList.add(
   "bg-transparent",
   "w-full",
@@ -37,20 +39,57 @@ navbar.innerHTML = `
      
       <div class="flex items-center">
         <ul class="flex space-x-10">
-          <li> 
-             <a href="#"><i class="fa-solid fa-user" title="Account"></i></a>
-          </li>
           <li>
-            <a href="products.html"><i class="fa-solid fa-bag-shopping" title="products"></i></a>
+          <button class="theme fa-solid fa-moon fa-lg" title="Theme"></button>
           </li>
+
           <li>
-          <a href="cart.html"><i class="fa-solid fa-cart-shopping" title="shoppingCart"></i></a>
+            <a href="products.html"><i class="fa-solid fa-bag-shopping fa-lg" title="products"></i></a>
+          </li>
+
+          <li>
+          <a href="cart.html"><i class="fa-solid fa-cart-shopping fa-lg" title="shoppingCart"></i></a>
           </li>
           
-          <li>
-            <a href="#"><i class="fa-solid fa-bars"></i></a>
-          </li>
+          
+        <div class="relative">
+          <span class="sr-only">Open user menu</span>
+          <button id="user-menu-button" class="fa-solid fa-user fa-lg flex justify-center"></button>
+
+        <div id="user-menu-dropdown" class="hidden absolute z-20 right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button">
+          <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Welcome ${
+            user ? user.username : "user"
+          }</a>
+          <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">About Coming Soon</a>
+          <a href="login.html" id="auth-link" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">${
+            user ? "Sign out" : "Login"
+          }</a>
+        </div>
+      </div>
+      
         </ul>
       </div>`;
 
 document.body.appendChild(navbar);
+
+const userMenuButton = document.getElementById("user-menu-button");
+const userMenuDropdown = document.getElementById("user-menu-dropdown");
+
+userMenuButton.addEventListener("click", (event) => {
+  userMenuDropdown.classList.toggle("hidden");
+  event.stopPropagation();
+});
+
+document.addEventListener("click", (event) => {
+  if (!event.target.closest("#user-menu")) {
+    userMenuDropdown.classList.add("hidden");
+  }
+});
+
+document.querySelector(".theme").addEventListener("click", function () {
+  if (user) {
+    user.theme = user.theme === "light" ? "dark" : "light";
+
+    localStorage.setItem("user", JSON.stringify(user));
+  }
+});

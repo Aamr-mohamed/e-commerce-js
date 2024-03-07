@@ -24,6 +24,8 @@ const form = document
 
     if (userExists) {
       if (userExists.password === password) {
+        user.username = userExists.username;
+        user.theme = userExists.theme;
         user.cart = userExists.cart;
         localStorage.setItem("user", JSON.stringify(user));
 
