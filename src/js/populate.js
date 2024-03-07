@@ -174,7 +174,7 @@ async function getProducts() {
     const response = await fetch("https://fakestoreapi.com/products");
     let products = await response.json();
     products = products.concat(newProducts);
-    console.log(products);
+    // console.log(products);
     localStorage.setItem("products", JSON.stringify(products));
     return products;
   } catch (error) {
@@ -189,7 +189,7 @@ async function getItem(id) {
   try {
     const response = await fetch(`https://fakestoreapi.com/products/${id}`);
     const item = await response.json();
-    console.log(item);
+    // console.log(item);
     return item;
   } catch (error) {
     console.log("error fetching product", error);
@@ -202,7 +202,7 @@ async function getByCtgry(category) {
       `https://fakestoreapi.com/products/category/${category}`
     );
     const items = await response.json();
-    console.log(items);
+    // console.log(items);
     return items;
   } catch (error) {
     console.log("error fetching product", error);
@@ -213,7 +213,7 @@ async function getctgry() {
   try {
     const response = await fetch(`https://fakestoreapi.com/products/category}`);
     const ctgry = await response.json();
-    console.log(ctgry);
+    // console.log(ctgry);
     return ctgry;
   } catch (error) {
     console.log("error fetching category", error);

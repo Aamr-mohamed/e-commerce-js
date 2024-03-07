@@ -27,13 +27,13 @@ function renderCart() {
       "h-[20%]",
       "flex",
       "flex-row",
-      "mb-5",
-      "border-b-2",
-      "border-gray-300"
+      "mb-5"
     );
     item.innerHTML = `
-      <div class="w-[15%] h-[30%]">
+      <div class="w-[35%] h-[40%]">
         <img src="https://m.media-amazon.com/images/G/01/cart/empty/kettle-desaturated._CB445243794_.svg" alt="" />
+        <h3 class="my-3">Your Cart Is Empty</h3>
+        <p>Shop Today's <a href="products.html"class="text-blue-700"> Deals</a></p>
       </div>
       
       `;

@@ -38,7 +38,7 @@ const renderItems = (items) => {
   }
 };
 
-console.log(itemList);
+// console.log(itemList);
 
 searchBar.addEventListener("input", (event) => {
   searchValue = event.target.value.trim().toLowerCase();

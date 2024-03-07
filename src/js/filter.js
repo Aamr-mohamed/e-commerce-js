@@ -34,49 +34,43 @@ searchMax.addEventListener("input", function () {
   valueMax.textContent = this.value + "$";
 });
 
-// const filterPrices = (event) => {
-//   event.preventDefaults();
+document.getElementById("filter-form").addEventListener("submit", function (e) {
+  e.preventDefault();
+  let filter = {
+    categories: [],
+    priceRange: { min: 0, max: 0 },
+    ascending: false,
+    descending: false,
+  };
 
-const form = document
-  .getElementById("filter-form")
-  .addEventListener("submit", function (e) {
-    e.preventDefault();
-    let filter = {
-      categories: [],
-      priceRange: { min: 0, max: 0 },
-      ascending: false,
-      descending: false,
-    };
-
-    const formData = new FormData(this);
-    formData.forEach((value, key) => {
-      if (key !== "range-min" && key !== "range-max") {
-        if (value === "on") {
-          if (key === "ascending") {
-            filter.ascending = true;
-          } else if (key === "descending") {
-            filter.descending = true;
-          } else {
-            filter.categories.push(key);
-          }
+  const formData = new FormData(this);
+  formData.forEach((value, key) => {
+    if (key !== "range-min" && key !== "range-max") {
+      if (value === "on") {
+        if (key === "ascending") {
+          filter.ascending = true;
+        } else if (key === "descending") {
+          filter.descending = true;
+        } else {
+          filter.categories.push(key);
         }
       }
-    });
-
-    filter.priceRange.max = searchMax.value;
-    filter.priceRange.min = searchMin.value;
-
-    if (filter.priceRange.min > filter.priceRange.max) {
-      //   console.log("more");
-      let temp = filter.priceRange.min;
-      filter.priceRange.min = filter.priceRange.max;
-      filter.priceRange.max = temp;
+    } else {
+      filter.priceRange[key === "range-min" ? "min" : "max"] = parseInt(value);
     }
-
-    // console.log(filter.priceRange.min);
-    // console.log(filter);
-    displayProducts(products, filter);
   });
+
+  if (filter.priceRange.min > filter.priceRange.max) {
+    //   console.log("more");
+    let temp = filter.priceRange.min;
+    filter.priceRange.min = filter.priceRange.max;
+    filter.priceRange.max = temp;
+  }
+
+  // console.log(filter.priceRange.min);
+  // console.log(filter);
+  displayProducts(products, filter);
+});
 // };
 
 function getFilteredProducts(products, filter) {
@@ -111,11 +105,25 @@ function displayProducts(products, filter) {
   const productContainer = document.getElementById("products");
   productContainer.innerHTML = "";
 
-  filteredProducts.forEach((product) => {
-    let item = document.createElement("div");
-    item.classList.add("product-item");
-    item.setAttribute("data-title", encodeURIComponent(product.title));
-    item.innerHTML = `<div class="group relative cursor-pointer">
+  if (filteredProducts.length === 0) {
+    const noProductsMessage = document.createElement("div");
+    noProductsMessage.classList.add(
+      "no-products-message",
+      "absolute",
+      "top-[18%]",
+      "left-[40%]"
+    );
+    noProductsMessage.innerHTML = `
+      <img src="https://m.media-amazon.com/images/G/01/cart/empty/kettle-desaturated._CB445243794_.svg" alt="" />
+      <h4 class="mt-5"><b>No products found matching the filter or search criteria.<b/></h4>
+      `;
+    productContainer.appendChild(noProductsMessage);
+  } else {
+    filteredProducts.forEach((product) => {
+      let item = document.createElement("div");
+      item.classList.add("product-item");
+      item.setAttribute("data-title", encodeURIComponent(product.title));
+      item.innerHTML = `<div class="group relative cursor-pointer">
                          <img
                          src="${product.image}"
                          alt="product picture"
@@ -145,48 +153,49 @@ function displayProducts(products, filter) {
                          </div>
                      </div>`;
 
-    productContainer.appendChild(item);
+      productContainer.appendChild(item);
 
-    item.querySelector(".picture").addEventListener("click", function (e) {
-      const productItem = e.target.closest(".product-item");
-      if (productItem) {
-        const title = decodeURIComponent(
-          productItem.getAttribute("data-title")
-        );
-        window.location.href = `item.html?title=${title}`;
-      }
+      item.querySelector(".picture").addEventListener("click", function (e) {
+        const productItem = e.target.closest(".product-item");
+        if (productItem) {
+          const title = decodeURIComponent(
+            productItem.getAttribute("data-title")
+          );
+          window.location.href = `item.html?title=${title}`;
+        }
+      });
+      item.querySelector(".plus").addEventListener("click", function () {
+        let quantityP = this.previousElementSibling;
+        let quantity = parseInt(quantityP.innerText);
+        quantityP.innerText = quantity + 1;
+      });
+      item.querySelector(".minus").addEventListener("click", function () {
+        let quantityP = this.nextElementSibling;
+        let quantity = parseInt(quantityP.innerText);
+        if (quantity > 1) {
+          quantityP.innerText = quantity - 1;
+        }
+      });
+      item.querySelector(".cart-form").addEventListener("submit", function (e) {
+        e.preventDefault();
+        let user = JSON.parse(localStorage.getItem("user"));
+
+        if (!user) {
+          toast(false, "Please login or register first");
+        } else {
+          let shopCart = {};
+          let quantity = document.getElementById("quantity").innerText;
+
+          shopCart.title = product.title;
+          shopCart.quantity = parseInt(quantity);
+
+          addToCart(shopCart, user.cart);
+
+          localStorage.setItem("user", JSON.stringify(user));
+
+          toast(true, "Added to Cart Successfully");
+        }
+      });
     });
-    item.querySelector(".plus").addEventListener("click", function () {
-      let quantityP = this.previousElementSibling;
-      let quantity = parseInt(quantityP.innerText);
-      quantityP.innerText = quantity + 1;
-    });
-    item.querySelector(".minus").addEventListener("click", function () {
-      let quantityP = this.nextElementSibling;
-      let quantity = parseInt(quantityP.innerText);
-      if (quantity > 1) {
-        quantityP.innerText = quantity - 1;
-      }
-    });
-    item.querySelector(".cart-form").addEventListener("submit", function (e) {
-      e.preventDefault();
-      let user = JSON.parse(localStorage.getItem("user"));
-
-      if (!user) {
-        toast(false, "Please login or register first");
-      } else {
-        let shopCart = {};
-        let quantity = document.getElementById("quantity").innerText;
-
-        shopCart.title = product.title;
-        shopCart.quantity = parseInt(quantity);
-
-        addToCart(shopCart, user.cart);
-
-        localStorage.setItem("user", JSON.stringify(user));
-
-        toast(true, "Added to Cart Successfully");
-      }
-    });
-  });
+  }
 }
