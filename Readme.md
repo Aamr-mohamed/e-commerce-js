@@ -6,6 +6,4 @@ To avoid CORS policy problems, it is recommended to use Live Server to run the p
 
 1. Ensure you have Live Server installed (no npm install needed).
 
-2. Open your project directory in a terminal.
-
-3. Reload HomePage the firsttime you enter the project for products to populate.
+2. Reload HomePage the firsttime you enter the project for products to populate.
