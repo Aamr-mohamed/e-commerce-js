@@ -90,7 +90,7 @@ function getFilteredProducts(products, filter) {
     return inCategory && inPriceRange && matchesSearchQuery;
   });
 
-  console.log(filteredProducts);
+  // console.log(filteredProducts);
   if (ascending) {
     filteredProducts.sort((a, b) => a.price - b.price);
   } else if (descending) {

@@ -26,8 +26,7 @@ function renderCart() {
       "w-[80%]",
       "h-[20%]",
       "flex",
-      "flex-row",
-      "mb-5"
+      "flex-row"
     );
     item.innerHTML = `
       <div class="w-[35%] h-[40%]">
@@ -74,11 +73,15 @@ function renderCart() {
            ${product.description} 
           </p>
 
-          <p class="mb-3"><b>Quantity: ${element.quantity}</b></p>
-          <h4 class="mb-2"><b>Price: ${product.price}$</b></h4>
-          <h4 class="mb-5"><b>Total: </b><b class="dynamic-price">${
+          <p class="mb-3"><b>Quantity: </b><b class="text-red-500">${
+            element.quantity
+          }</b></p>
+          <h4 class="mb-2"><b>Price: </b><b class="text-red-500">${
+            product.price
+          }$</b></h4>
+          <h4 class="mb-5"><b>Total: </b><b class="dynamic-price text-red-600">${
             product.price * element.quantity
-          }</b><b>$</b></h4>
+          }$</b></h4>
           <form class="cart-form mb-5 flex justify-between">
           <div class="flex flex-col">
             <p class="mb-3">Add Quantity From 1 to 10</p>
