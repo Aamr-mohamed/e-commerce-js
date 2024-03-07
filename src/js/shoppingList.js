@@ -4,6 +4,10 @@ import { toast } from "./utils/toasts.js";
 const products = JSON.parse(localStorage.getItem("products"));
 // console.log(products[0]);
 const product = document.getElementById("products");
+
+// if (!products) {
+//   window.location.href = "home.html";
+// }
 // const category = document.getElementsByClassName("ctgry");
 // console.log(category);
 

@@ -6,6 +6,7 @@
 
 // localStorage.setItem("products", JSON.stringify(products));
 // }
+
 const newProducts = [
   {
     title: "Classic Tee",
