@@ -1,7 +1,3 @@
-Use Live Server to run the project to avoid cors policy problems.
-Reload HomePage the firsttime u enter the project for the products to populate.
-No npm install needed.
-
 # Project Setup with Live Server
 
 To avoid CORS policy problems, it is recommended to use Live Server to run the project.
