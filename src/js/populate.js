@@ -174,7 +174,7 @@ async function getProducts() {
     const response = await fetch("https://fakestoreapi.com/products");
     let products = await response.json();
     products = products.concat(newProducts);
-    // console.log(products);
+    console.log(products);
     localStorage.setItem("products", JSON.stringify(products));
     return products;
   } catch (error) {
